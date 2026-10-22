@@ -72,7 +72,7 @@
       "available": "Available now",
       "contact": "Corry Van Iersel (agent) · (519) 242-0277",
       "howToBook": "Call the agent. The listing says showing instructions are in the sales brochure on the page",
-      "notes": "Heat and water included, electricity extra. Fridge and stove. Secured entry.",
+      "notes": "Heat and water included, electricity extra. Fridge and stove. Secured entry. Also on Realtor.ca.",
       "found": "2026-10-22",
       "status": "located",
       "photo": "https://images.rentals.ca/property-pictures/original/cambridge-on/1583437/apartment-2242376621.jpg",
@@ -110,11 +110,30 @@
       "available": "Nov 1, 2026",
       "contact": "Corry Van Iersel (agent) · (519) 242-0277",
       "howToBook": "Call the agent to book a showing",
-      "notes": "Rent is ALL INCLUSIVE (heat and water included). Coin laundry on site. Fridge and stove.",
+      "notes": "Rent is ALL INCLUSIVE (heat and water included). Coin laundry on site. Fridge and stove. Also on Realtor.ca.",
       "found": "2026-10-22",
       "status": "located",
       "photo": "https://images.rentals.ca/property-pictures/original/cambridge-on/1586843/apartment-2242451617.jpg",
       "discardReason": ""
+    },
+    {
+      "id": "realtor-40870254",
+      "source": "Realtor.ca",
+      "url": "https://www.realtor.ca/real-estate/30388068/15-warnock-street-unit-upper-cambridge",
+      "building": "15 Warnock St, Upper unit",
+      "address": "15 Warnock St, Cambridge (City Core, off Water St S and Bruce St)",
+      "rent": 1300,
+      "unit": "2 bed · 1 bath · second floor of a house · 800 sqft",
+      "pets": "Not stated, ask",
+      "parking": "Open parking (ask if included)",
+      "available": "Available immediately",
+      "contact": "Rob Golfi (agent) · (905) 575-7700",
+      "howToBook": "Call the agent. Applications need credit score, job letter and references",
+      "notes": "Upper unit only, separate from the rest of the house (confirm nothing is shared). Fridge and stove. Well below the usual price for a 2 bed: ask why.",
+      "found": "2026-10-22",
+      "status": "located",
+      "discardReason": "",
+      "photo": "https://cdn.realtor.ca/listings/TS639271607296300000/reb14/highres/4/40870254_1.jpg"
     }
   ]
 }
