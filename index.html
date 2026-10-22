@@ -53,6 +53,11 @@
   .pill.located { background: var(--pending-soft); color: var(--pending); }
   .pill.contacted { background: var(--ok-soft); color: var(--ok); }
   .pill.discarded { background: #eee; color: #888; }
+  .photo { grid-column: 1 / -1; display: block; margin: -16px -16px 6px; width: calc(100% + 32px); max-width: none; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px 10px 0 0; background: #e8e8e8; }
+  .card.discarded .photo { filter: grayscale(1); }
+  .why { grid-column: 1 / -1; font-size: 14px; font-weight: 600; color: #8a1c2c; background: rgba(217,49,78,.08); border-left: 3px solid var(--accent); padding: 8px 10px; border-radius: 4px; }
+  .card.discarded { opacity: 1; }
+  .card.discarded .row, .card.discarded .meta, .card.discarded .actions { opacity: .55; }
   .src { grid-column: 1 / -1; justify-self: start; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #fff; padding: 4px 10px; border-radius: 4px; }
   .src.zumper { background: #3a5bd9; }
   .src.rentals { background: #e6731c; }
@@ -97,6 +102,8 @@
       var s = String(x.source || '').toLowerCase();
       var sc = /zumper/.test(s) ? 'zumper' : /rentals/.test(s) ? 'rentals' : /realtor/.test(s) ? 'realtor' : /marketplace|facebook/.test(s) ? 'marketplace' : 'other';
       return '<div class="card ' + x.status + '">' +
+        (x.photo ? '<a href="' + esc(x.url) + '" target="_blank" rel="noopener" style="display:contents"><img class="photo" src="' + esc(x.photo) + '" alt="' + esc(x.building) + '" loading="lazy" referrerpolicy="no-referrer"></a>' : '') +
+        (x.status === 'discarded' && x.discardReason ? '<div class="why">Discarded: ' + esc(x.discardReason) + '</div>' : '') +
         '<span class="src ' + sc + '">' + esc(x.source) + '</span>' +
         '<div class="bname"><a href="' + esc(x.url) + '" target="_blank" rel="noopener">' + esc(x.building) + ' ↗</a>' + (isNew ? '<span class="new">NEW</span>' : '') + '</div>' +
         '<div class="rent">$' + Number(x.rent).toLocaleString('en-CA') + '</div>' +
