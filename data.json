@@ -134,6 +134,44 @@
       "status": "located",
       "discardReason": "",
       "photo": "https://cdn.realtor.ca/listings/TS639271607296300000/reb14/highres/4/40870254_1.jpg"
+    },
+    {
+      "id": "fb-1162301956266293",
+      "source": "Facebook Marketplace",
+      "url": "https://www.facebook.com/marketplace/item/1162301956266293/",
+      "building": "42 Hilltop Dr (9-plex)",
+      "address": "42 Hilltop Dr, Cambridge N1R 1T1",
+      "rent": 1700,
+      "unit": "2 bed · 1 bath · 760 sqft · renovated, hardwood",
+      "pets": "Tagged CAT friendly: ask about a dog",
+      "parking": "1 spot included",
+      "available": "Available now, 1 year lease",
+      "contact": "Sheraar Arastu (Facebook)",
+      "howToBook": "Message the seller on Marketplace",
+      "notes": "Heat and water included, hydro extra. Secured three storey 9-plex with intercom and cameras. Laundry in the building. Ask which floor the unit is on.",
+      "found": "2026-10-22",
+      "status": "located",
+      "discardReason": "",
+      "photo": ""
+    },
+    {
+      "id": "fb-3998226483807617",
+      "source": "Facebook Marketplace",
+      "url": "https://www.facebook.com/marketplace/item/3998226483807617/",
+      "building": "2 bed house (Beverly and Dundas area)",
+      "address": "Cambridge, near Beverly St and Dundas St (approximate)",
+      "rent": 1500,
+      "unit": "2 bed · 1 bath · house",
+      "pets": "Not stated, ask",
+      "parking": "Parking available",
+      "available": "",
+      "contact": "Binisha Balamurali (Facebook, highly rated seller)",
+      "howToBook": "Message the seller on Marketplace",
+      "notes": "$1,500 plus utilities. Very short description: ask if it is the whole house or one floor, and confirm it is not a basement.",
+      "found": "2026-10-22",
+      "status": "located",
+      "discardReason": "",
+      "photo": ""
     }
   ]
 }
