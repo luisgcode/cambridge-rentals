@@ -70,7 +70,18 @@
   .new { color: var(--accent); font-size: 11px; font-weight: 700; margin-left: 6px; }
   .open { grid-column: 1 / -1; justify-self: start; margin-top: 6px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 4px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
   .empty { color: var(--ink-soft); padding: 20px 0; }
+  .mark { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .mbtn { flex: 1 1 auto; min-height: 42px; border-radius: 8px; border: 1px solid rgba(0,0,0,.18); background: var(--surface); font: 600 14px var(--sans); color: var(--ink); cursor: pointer; padding: 0 12px; }
+  .mbtn.on { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .mbtn.bad { color: #8a1c2c; border-color: rgba(217,49,78,.4); }
+  .discard-box { grid-column: 1 / -1; display: grid; gap: 8px; }
+  .discard-box textarea { width: 100%; min-height: 70px; font: 15px var(--sans); padding: 10px; border: 1px solid rgba(0,0,0,.2); border-radius: 8px; resize: vertical; }
+  .discard-box .row2 { display: flex; gap: 8px; }
+  .saving { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-soft); }
+  .saving.err { color: #b00020; }
+  .banner { background: #fff4d6; border: 1px solid #e8cf83; color: #6b5200; font-size: 13px; padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; }
 </style>
+<script src="config.js"></script>
 </head>
 <body>
 <header class="apphead"><p>Cambridge Rentals</p><span class="upd" id="upd"></span></header>
@@ -84,11 +95,66 @@
     <button class="tab" data-f="discarded">Discarded</button>
     <button class="tab" data-f="all">All</button>
   </div>
+  <div class="banner" id="banner" hidden>Changes are saved on this device only. To make them live on every device, the shared store key has to be set in config.js.</div>
   <div id="list"><p class="empty">Loading…</p></div>
 </main>
 <script>
   var LABEL = { located: 'Located', contacted: 'Contacted', discarded: 'Discarded' };
-  var data = null, filter = 'active';
+  var data = null, filter = 'active', marks = {}, openBox = null;
+  // Marks typed on the page (status + note) live in a shared JSON store, keyed by listing id.
+  // A mark remembers the rent it was made at: if the rent changes, the mark no longer applies
+  // and the listing shows up again as Located with PRICE CHANGED.
+  var SHARED = !!(window.RENT_BIN && window.RENT_KEY);
+  var API = 'https://api.jsonbin.io/v3/b/' + (window.RENT_BIN || '');
+  var LOCAL = 'cambridge-rentals-marks';
+  function readLocal() { try { return JSON.parse(localStorage.getItem(LOCAL) || '{}'); } catch (e) { return {}; } }
+  function writeLocal(m) { try { localStorage.setItem(LOCAL, JSON.stringify(m)); } catch (e) {} }
+  function pullMarks() {
+    if (!SHARED) return Promise.resolve(readLocal());
+    return fetch(API + '/latest', { headers: { 'X-Master-Key': window.RENT_KEY } })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { var m = (d && d.record) || {}; delete m._empty; writeLocal(m); return m; })
+      .catch(function () { return readLocal(); });
+  }
+  function pushMarks(id) {
+    writeLocal(marks);
+    if (!SHARED) { flash(id, 'Saved on this device', false); return; }
+    flash(id, 'Saving…', false);
+    var payload = Object.keys(marks).length ? marks : { _empty: true };
+    fetch(API, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': window.RENT_KEY }, body: JSON.stringify(payload) })
+      .then(function (r) { flash(id, r.ok ? 'Saved ✓' : 'Not saved, try again', !r.ok); })
+      .catch(function () { flash(id, 'Not saved, check the connection', true); });
+  }
+  function flash(id, text, err) {
+    var el = document.querySelector('.saving[data-id="' + id + '"]');
+    if (el) { el.textContent = text; el.className = 'saving' + (err ? ' err' : ''); }
+  }
+  function effective(x) {
+    var m = marks[x.id];
+    if (m && Number(m.rent) === Number(x.rent)) return { status: m.status, reason: m.reason || '' };
+    if (m && Number(m.rent) !== Number(x.rent)) return { status: 'located', reason: '', prevRent: m.rent };
+    return { status: x.status, reason: x.discardReason || '' };
+  }
+  function setMark(id, status, reason) {
+    var x = data.listings.filter(function (l) { return l.id === id; })[0];
+    if (!x) return;
+    if (status === 'located') delete marks[id];
+    else marks[id] = { status: status, reason: reason || '', rent: x.rent, at: new Date().toISOString().slice(0, 10) };
+    openBox = null;
+    render();
+    pushMarks(id);
+  }
+  function markControls(x, st) {
+    if (openBox === x.id) {
+      return '<div class="discard-box"><textarea id="why-' + x.id + '" placeholder="Why are we discarding it? (for example: basement, only 1 bedroom, already rented)"></textarea>' +
+        '<div class="row2"><button class="mbtn bad" data-act="confirm" data-id="' + x.id + '">Save as discarded</button><button class="mbtn" data-act="cancel" data-id="' + x.id + '">Cancel</button></div></div>';
+    }
+    if (st === 'discarded') return '<div class="mark"><button class="mbtn" data-act="restore" data-id="' + x.id + '">Restore</button></div><div class="saving" data-id="' + x.id + '"></div>';
+    return '<div class="mark">' +
+      '<button class="mbtn' + (st === 'contacted' ? ' on' : '') + '" data-act="contacted" data-id="' + x.id + '">' + (st === 'contacted' ? '✓ Contacted' : 'Mark contacted') + '</button>' +
+      '<button class="mbtn bad" data-act="discard" data-id="' + x.id + '">Discard…</button></div>' +
+      '<div class="saving" data-id="' + x.id + '"></div>';
+  }
   function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function actions(x) {
     var tel = (String(x.contact || '').match(/\(?\d{3}\)?[\s.-]?\d{3}-\d{4}/) || [''])[0];
@@ -98,7 +164,12 @@
     return '<div class="actions">' + call + view + '</div>';
   }
   function render() {
-    var L = data.listings.slice().sort(function (a, b) { return (b.found || '').localeCompare(a.found || '') || a.rent - b.rent; });
+    var L = data.listings.map(function (o) {
+      var e = effective(o), x = {};
+      for (var k in o) x[k] = o[k];
+      x.status = e.status; x.discardReason = e.reason; if (e.prevRent) x.prevRent = e.prevRent;
+      return x;
+    }).sort(function (a, b) { return (b.found || '').localeCompare(a.found || '') || a.rent - b.rent; });
     var rows = L.filter(function (x) { return filter === 'all' ? true : filter === 'active' ? x.status !== 'discarded' : x.status === filter; });
     var html = rows.map(function (x) {
       var isNew = x.found === data.updated && x.status === 'located';
@@ -118,6 +189,7 @@
         (x.notes ? '<div class="row"><span>Notes:</span> ' + esc(x.notes) + '</div>' : '') +
         '<span class="pill ' + x.status + '" style="grid-column:1/-1;justify-self:start">' + LABEL[x.status] + '</span>' +
         actions(x) +
+        markControls(x, x.status) +
         '</div>';
     }).join('');
     document.getElementById('list').innerHTML = html || '<p class="empty">Nothing here yet.</p>';
@@ -132,10 +204,33 @@
       render();
     });
   });
-  fetch('data.json?v=' + Date.now()).then(function (r) { return r.json(); }).then(function (d) {
-    data = d;
-    document.getElementById('upd').textContent = 'Updated ' + d.updated;
-    document.getElementById('crit').textContent = d.criteria;
+  document.getElementById('list').addEventListener('click', function (ev) {
+    var b = ev.target.closest('button[data-act]');
+    if (!b) return;
+    var id = b.getAttribute('data-id'), act = b.getAttribute('data-act');
+    if (act === 'contacted') {
+      var cur = marks[id] && marks[id].status === 'contacted';
+      setMark(id, cur ? 'located' : 'contacted', '');
+    } else if (act === 'discard') {
+      openBox = id; render();
+      var t = document.getElementById('why-' + id); if (t) t.focus();
+    } else if (act === 'cancel') {
+      openBox = null; render();
+    } else if (act === 'confirm') {
+      var why = (document.getElementById('why-' + id) || {}).value || '';
+      setMark(id, 'discarded', why.trim());
+    } else if (act === 'restore') {
+      setMark(id, 'located', '');
+    }
+  });
+  document.getElementById('banner').hidden = SHARED;
+  Promise.all([
+    fetch('data.json?v=' + Date.now()).then(function (r) { return r.json(); }),
+    pullMarks()
+  ]).then(function (res) {
+    data = res[0]; marks = res[1] || {};
+    document.getElementById('upd').textContent = 'Updated ' + data.updated;
+    document.getElementById('crit').textContent = data.criteria;
     render();
   }).catch(function () { document.getElementById('list').innerHTML = '<p class="empty">Could not load the listings. Refresh the page.</p>'; });
 </script>
