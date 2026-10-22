@@ -91,6 +91,7 @@
       return '<div class="card ' + x.status + '">' +
         '<div class="bname"><a href="' + esc(x.url) + '" target="_blank" rel="noopener">' + esc(x.building) + ' ↗</a>' + (isNew ? '<span class="new">NEW</span>' : '') + '</div>' +
         '<div class="rent">$' + Number(x.rent).toLocaleString('en-CA') + '</div>' +
+        (x.prevRent ? '<div class="row" style="color:var(--accent);font-weight:700">PRICE CHANGED: $' + Number(x.prevRent).toLocaleString('en-CA') + ' → $' + Number(x.rent).toLocaleString('en-CA') + '</div>' : '') +
         '<div class="meta">' + esc(x.address) + ' · ' + esc(x.source) + ' · found ' + esc(x.found) + '</div>' +
         '<div class="row">' + esc(x.unit) + ' · <b>' + esc(x.pets) + '</b>' + (x.parking ? ' · Parking: ' + esc(x.parking) : '') + (x.available ? ' · ' + esc(x.available) : '') + '</div>' +
         '<div class="row"><span>Contact:</span> ' + esc(x.contact) + '</div>' +
