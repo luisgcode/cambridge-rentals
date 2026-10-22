@@ -1,0 +1,57 @@
+{
+  "updated": "2026-10-22",
+  "criteria": "Cambridge ON · rent up to $1,700 · 2 bed or 1 bed + den · dogs allowed · no basements · no shared",
+  "listings": [
+    {
+      "id": "zumper-p1054277-2bed",
+      "source": "Zumper",
+      "url": "https://www.zumper.com/apartment-buildings/p1054277/94-beck-apartments-preston-centre-cambridge-on",
+      "building": "94 Beck Apartments",
+      "address": "94 Beck St, Cambridge (Preston)",
+      "rent": 1625,
+      "unit": "2 bed · 1 bath · renovated",
+      "pets": "Dogs OK",
+      "parking": "",
+      "available": "",
+      "contact": "94 Beck Apartments · (548) 900-9530",
+      "howToBook": "Call the leasing office, or Check availability on Zumper",
+      "notes": "",
+      "found": "2026-10-22",
+      "status": "located"
+    },
+    {
+      "id": "zumper-p743950-2bed",
+      "source": "Zumper",
+      "url": "https://www.zumper.com/apartment-buildings/p743950/wendy-court-greenway-chaplin-cambridge-on",
+      "building": "Wendy Court",
+      "address": "11 Wendy Crt, Cambridge (Greenway-Chaplin)",
+      "rent": 1673,
+      "unit": "2 bed · 1 bath",
+      "pets": "Dogs OK",
+      "parking": "",
+      "available": "",
+      "contact": "Centurion Property Associates · (844) 419-5789",
+      "howToBook": "Call Centurion, or Check availability on Zumper",
+      "notes": "The 2 bed + den unit is $1,787 (over budget).",
+      "found": "2026-10-22",
+      "status": "located"
+    },
+    {
+      "id": "zumper-p218503-2bed",
+      "source": "Zumper",
+      "url": "https://www.zumper.com/apartment-buildings/p218503/brierdale-road-apartments-christopher-champlain-cambridge-on",
+      "building": "Brierdale Road Apartments",
+      "address": "Brierdale Rd, Cambridge (Christopher-Champlain)",
+      "rent": 1699,
+      "unit": "2 bed · 1 bath · 900+ sqft",
+      "pets": "Dogs OK",
+      "parking": "",
+      "available": "1 unit available",
+      "contact": "Centurion Property Associates · (844) 667-4848",
+      "howToBook": "Call Centurion, or Check availability on Zumper",
+      "notes": "1 month free on a 12 month lease. Heat and hot water included.",
+      "found": "2026-10-22",
+      "status": "located"
+    }
+  ]
+}

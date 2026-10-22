@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Cambridge Rentals</title>
+<style>
+  :root {
+    --bg: #f5f5f5; --surface: #ffffff; --bar: #1d1d1d; --ink: #1a1a1a; --ink-soft: #777777;
+    --line: rgba(0,0,0,0.10); --accent: #d9314e; --ok: #1a8a4a; --ok-soft: rgba(26,138,74,0.10);
+    --pending: #b07d10; --pending-soft: rgba(176,125,16,0.12);
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.45; -webkit-font-smoothing: antialiased; }
+  .apphead { height: 52px; background: var(--bar); display: flex; align-items: center; gap: 12px; padding: 0 max(16px, env(safe-area-inset-left)); }
+  .apphead p { margin: 0; color: #fff; font-size: 15px; font-weight: 500; }
+  .apphead .upd { margin-left: auto; color: rgba(255,255,255,.6); font-size: 12.5px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 22px 16px 60px; }
+  .crit { color: var(--ink-soft); font-size: 13px; margin: 0 0 14px; }
+  .summary { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 13px; margin-bottom: 14px; }
+  .summary b { font-size: 18px; margin-right: 5px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .tab { background: var(--surface); border: 1px solid rgba(0,0,0,.16); border-radius: 5px; padding: 6px 12px; font: 600 12.5px var(--sans); color: var(--ink-soft); cursor: pointer; }
+  .tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; }
+  .card.discarded { opacity: .5; }
+  .card.discarded .bname, .card.discarded .rent { text-decoration: line-through; }
+  .bname { font-weight: 700; font-size: 16px; }
+  .bname a { color: var(--ink); text-decoration: none; }
+  .bname a:hover { color: var(--accent); text-decoration: underline; }
+  .rent { font-weight: 700; font-size: 18px; text-align: right; }
+  .meta { color: var(--ink-soft); font-size: 13px; grid-column: 1 / -1; }
+  .row { font-size: 13.5px; grid-column: 1 / -1; }
+  .row span { color: var(--ink-soft); }
+  .pill { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 10px; justify-self: end; }
+  .pill.located { background: var(--pending-soft); color: var(--pending); }
+  .pill.contacted { background: var(--ok-soft); color: var(--ok); }
+  .pill.discarded { background: #eee; color: #888; }
+  .new { color: var(--accent); font-size: 11px; font-weight: 700; margin-left: 6px; }
+  .open { grid-column: 1 / -1; justify-self: start; margin-top: 6px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 4px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
+  .empty { color: var(--ink-soft); padding: 20px 0; }
+</style>
+</head>
+<body>
+<header class="apphead"><p>Cambridge Rentals</p><span class="upd" id="upd"></span></header>
+<main class="wrap">
+  <p class="crit" id="crit"></p>
+  <div class="summary" id="sum"></div>
+  <div class="tabs">
+    <button class="tab on" data-f="active">Active</button>
+    <button class="tab" data-f="located">Located</button>
+    <button class="tab" data-f="contacted">Contacted</button>
+    <button class="tab" data-f="discarded">Discarded</button>
+    <button class="tab" data-f="all">All</button>
+  </div>
+  <div id="list"><p class="empty">Loading…</p></div>
+</main>
+<script>
+  var LABEL = { located: 'Located', contacted: 'Contacted', discarded: 'Discarded' };
+  var data = null, filter = 'active';
+  function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function render() {
+    var L = data.listings.slice().sort(function (a, b) { return (b.found || '').localeCompare(a.found || '') || a.rent - b.rent; });
+    var rows = L.filter(function (x) { return filter === 'all' ? true : filter === 'active' ? x.status !== 'discarded' : x.status === filter; });
+    var html = rows.map(function (x) {
+      var isNew = x.found === data.updated && x.status === 'located';
+      return '<div class="card ' + x.status + '">' +
+        '<div class="bname"><a href="' + esc(x.url) + '" target="_blank" rel="noopener">' + esc(x.building) + ' ↗</a>' + (isNew ? '<span class="new">NEW</span>' : '') + '</div>' +
+        '<div class="rent">$' + Number(x.rent).toLocaleString('en-CA') + '</div>' +
+        '<div class="meta">' + esc(x.address) + ' · ' + esc(x.source) + ' · found ' + esc(x.found) + '</div>' +
+        '<div class="row">' + esc(x.unit) + ' · <b>' + esc(x.pets) + '</b>' + (x.parking ? ' · Parking: ' + esc(x.parking) : '') + (x.available ? ' · ' + esc(x.available) : '') + '</div>' +
+        '<div class="row"><span>Contact:</span> ' + esc(x.contact) + '</div>' +
+        '<div class="row"><span>How to book:</span> ' + esc(x.howToBook) + '</div>' +
+        (x.notes ? '<div class="row"><span>Notes:</span> ' + esc(x.notes) + '</div>' : '') +
+        '<span class="pill ' + x.status + '" style="grid-column:1/-1">' + LABEL[x.status] + '</span>' +
+        '</div>';
+    }).join('');
+    document.getElementById('list').innerHTML = html || '<p class="empty">Nothing here yet.</p>';
+    var c = function (s) { return L.filter(function (x) { return x.status === s; }).length; };
+    var nNew = L.filter(function (x) { return x.found === data.updated && x.status === 'located'; }).length;
+    document.getElementById('sum').innerHTML = '<span><b>' + nNew + '</b>new today</span><span><b>' + c('located') + '</b>located</span><span><b>' + c('contacted') + '</b>contacted</span><span><b>' + c('discarded') + '</b>discarded</span>';
+  }
+  document.querySelectorAll('.tab').forEach(function (b) {
+    b.addEventListener('click', function () {
+      filter = b.getAttribute('data-f');
+      document.querySelectorAll('.tab').forEach(function (x) { x.classList.toggle('on', x === b); });
+      render();
+    });
+  });
+  fetch('data.json?v=' + Date.now()).then(function (r) { return r.json(); }).then(function (d) {
+    data = d;
+    document.getElementById('upd').textContent = 'Updated ' + d.updated;
+    document.getElementById('crit').textContent = d.criteria;
+    render();
+  }).catch(function () { document.getElementById('list').innerHTML = '<p class="empty">Could not load the listings. Refresh the page.</p>'; });
+</script>
+</body>
+</html>
