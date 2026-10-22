@@ -17,9 +17,9 @@
       "howToBook": "Call the leasing office, or Check availability on Zumper",
       "notes": "Also on Rentals.ca.",
       "found": "2026-10-22",
-      "status": "located",
+      "status": "discarded",
       "photo": "https://img.zumpercdn.com/932648359/640x480?auto=format",
-      "discardReason": ""
+      "discardReason": "It is a basement unit (the listing does not say so)."
     },
     {
       "id": "zumper-p743950-2bed",
@@ -55,9 +55,9 @@
       "howToBook": "Call Centurion, or Check availability on Zumper",
       "notes": "1 month free on a 12 month lease. Heat and hot water included. Also on Rentals.ca (Customer Care Centre (226) 407-4013).",
       "found": "2026-10-22",
-      "status": "located",
+      "status": "discarded",
       "photo": "https://img.zumpercdn.com/923678659/640x480?auto=format",
-      "discardReason": ""
+      "discardReason": "It only has 1 bedroom, even though the listing says 2."
     },
     {
       "id": "rentalsca-141-linnwood-26",
