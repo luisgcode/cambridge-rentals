@@ -94,7 +94,10 @@
     var rows = L.filter(function (x) { return filter === 'all' ? true : filter === 'active' ? x.status !== 'discarded' : x.status === filter; });
     var html = rows.map(function (x) {
       var isNew = x.found === data.updated && x.status === 'located';
+      var s = String(x.source || '').toLowerCase();
+      var sc = /zumper/.test(s) ? 'zumper' : /rentals/.test(s) ? 'rentals' : /realtor/.test(s) ? 'realtor' : /marketplace|facebook/.test(s) ? 'marketplace' : 'other';
       return '<div class="card ' + x.status + '">' +
+        '<span class="src ' + sc + '">' + esc(x.source) + '</span>' +
         '<div class="bname"><a href="' + esc(x.url) + '" target="_blank" rel="noopener">' + esc(x.building) + ' ↗</a>' + (isNew ? '<span class="new">NEW</span>' : '') + '</div>' +
         '<div class="rent">$' + Number(x.rent).toLocaleString('en-CA') + '</div>' +
         (x.prevRent ? '<div class="row" style="color:var(--accent);font-weight:700">PRICE CHANGED: $' + Number(x.prevRent).toLocaleString('en-CA') + ' → $' + Number(x.rent).toLocaleString('en-CA') + '</div>' : '') +
