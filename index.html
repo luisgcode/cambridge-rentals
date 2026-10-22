@@ -30,12 +30,12 @@
   .btn.call { background: var(--ok); color: #fff; }
   .btn.view { background: var(--accent); color: #fff; }
   .btn.solo { grid-column: 1 / -1; }
-  @media (min-width: 900px) {
-    .wrap { max-width: 1200px; }
-    #list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
-    #list .card { margin-bottom: 0; }
-    #list .empty { grid-column: 1 / -1; }
-  }
+  /* Responsive: 1 column on phones, 2 on tablets, 3 or 4 on desktop, as wide as the screen allows */
+  .wrap { max-width: 1600px; }
+  #list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 14px; align-items: start; }
+  #list .card { margin-bottom: 0; }
+  #list .empty { grid-column: 1 / -1; }
+  .summary, .crit, .tabs { max-width: 100%; }
   .tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 12px; display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; font-size: 15px; }
   .row { font-size: 15px !important; }
