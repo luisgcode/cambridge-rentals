@@ -63,6 +63,9 @@
   .src.rentals { background: #e6731c; }
   .src.realtor { background: #c8102e; }
   .src.marketplace { background: #1877f2; }
+  .src.kijiji { background: #373373; }
+  .src.viewit { background: #0a8f6a; }
+  .src.livrent { background: #ff5a5f; }
   .src.other { background: #555; }
   .new { color: var(--accent); font-size: 11px; font-weight: 700; margin-left: 6px; }
   .open { grid-column: 1 / -1; justify-self: start; margin-top: 6px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 4px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
@@ -100,7 +103,7 @@
     var html = rows.map(function (x) {
       var isNew = x.found === data.updated && x.status === 'located';
       var s = String(x.source || '').toLowerCase();
-      var sc = /zumper/.test(s) ? 'zumper' : /rentals/.test(s) ? 'rentals' : /realtor/.test(s) ? 'realtor' : /marketplace|facebook/.test(s) ? 'marketplace' : 'other';
+      var sc = /zumper/.test(s) ? 'zumper' : /rentals/.test(s) ? 'rentals' : /realtor/.test(s) ? 'realtor' : /marketplace|facebook/.test(s) ? 'marketplace' : /kijiji/.test(s) ? 'kijiji' : /viewit/.test(s) ? 'viewit' : /liv/.test(s) ? 'livrent' : 'other';
       return '<div class="card ' + x.status + '">' +
         (x.photo ? '<a href="' + esc(x.url) + '" target="_blank" rel="noopener" style="display:contents"><img class="photo" src="' + esc(x.photo) + '" alt="' + esc(x.building) + '" loading="lazy" referrerpolicy="no-referrer"></a>' : '') +
         (x.status === 'discarded' && x.discardReason ? '<div class="why">Discarded: ' + esc(x.discardReason) + '</div>' : '') +
