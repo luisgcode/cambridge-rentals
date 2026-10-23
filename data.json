@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-22",
+  "updated": "2026-10-23",
   "criteria": "Cambridge ON · rent up to $1,700 · 2 bed or 1 bed + den · dogs allowed · no basements · no shared",
   "listings": [
     {
@@ -305,6 +305,44 @@
       "found": "2026-10-22",
       "status": "located",
       "discardReason": ""
+    },
+    {
+      "id": "realtor-40873541",
+      "source": "Realtor.ca",
+      "url": "https://www.realtor.ca/real-estate/30436146/318-dolph-street-s-unit-5-cambridge",
+      "building": "318 Dolph St S, Unit 5",
+      "address": "318 Dolph St S, Cambridge (Preston South, corner of Hamilton St and Dolph St S)",
+      "rent": 1599,
+      "unit": "2 bed · 1 bath · 750 sqft · 3 storey apartment building",
+      "pets": "Not stated, ask",
+      "parking": "$100/month extra",
+      "available": "Flexible possession",
+      "contact": "Soham Das (agent) · (226) 899-6334",
+      "howToBook": "Call the agent",
+      "notes": "Unfurnished, carpet free, next to a school. Ask which floor Unit 5 is on and if pets are allowed.",
+      "found": "2026-10-23",
+      "status": "located",
+      "discardReason": "",
+      "photo": "https://cdn.realtor.ca/listings/TS639283385545230000/reb14/highres/1/40873541_1.jpg"
+    },
+    {
+      "id": "fb-1375643350649144",
+      "source": "Facebook Marketplace",
+      "url": "https://www.facebook.com/marketplace/item/1375643350649144/",
+      "building": "200 Dundas St S",
+      "address": "200 Dundas St S, Cambridge N1R 8A8",
+      "rent": 1600,
+      "unit": "2 bed · 1 bath",
+      "pets": "Tagged CAT friendly: ask about a dog",
+      "parking": "Parking available",
+      "available": "Available now, 1 year lease",
+      "contact": "Arsalan Memon (Facebook, highly rated seller, 85 reviews)",
+      "howToBook": "Message the seller on Marketplace",
+      "notes": "Washer and dryer, central AC. Listed as a House but the text says apartment: confirm it is a building and not part of a house.",
+      "found": "2026-10-23",
+      "status": "located",
+      "discardReason": "",
+      "photo": ""
     }
   ]
 }
