@@ -111,20 +111,48 @@
   function writeLocal(m) { try { localStorage.setItem(LOCAL, JSON.stringify(m)); } catch (e) {} }
   function pullMarks() {
     if (!SHARED) return Promise.resolve(readLocal());
-    return fetch(API + '/latest', { headers: { 'X-Master-Key': window.RENT_KEY } })
-      .then(function (r) { return r.json(); })
-      .then(function (d) { var m = (d && d.record) || {}; delete m._empty; writeLocal(m); return m; })
+    return fetch(API + '/latest', { headers: { 'X-Master-Key': window.RENT_KEY, 'X-Bin-Meta': 'false' }, cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('read'); return r.json(); })
+      .then(function (d) { var m = d || {}; delete m._empty; writeLocal(m); return m; })
       .catch(function () { return readLocal(); });
   }
+  // Save one listing's mark. Read the latest shared copy first and change only this listing,
+  // so two phones marking at the same time never overwrite each other's changes.
+  var pending = Promise.resolve();
   function pushMarks(id) {
     writeLocal(marks);
     if (!SHARED) { flash(id, 'Saved on this device', false); return; }
     flash(id, 'Saving…', false);
-    var payload = Object.keys(marks).length ? marks : { _empty: true };
-    fetch(API, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': window.RENT_KEY }, body: JSON.stringify(payload) })
-      .then(function (r) { flash(id, r.ok ? 'Saved ✓' : 'Not saved, try again', !r.ok); })
-      .catch(function () { flash(id, 'Not saved, check the connection', true); });
+    var mine = marks[id] ? JSON.parse(JSON.stringify(marks[id])) : null;
+    pending = pending.then(function () {
+      return fetch(API + '/latest', { headers: { 'X-Master-Key': window.RENT_KEY, 'X-Bin-Meta': 'false' }, cache: 'no-store' })
+        .then(function (r) { if (!r.ok) throw new Error('read'); return r.json(); })
+        .then(function (latest) {
+          latest = latest || {}; delete latest._empty;
+          if (mine) latest[id] = mine; else delete latest[id];
+          var payload = Object.keys(latest).length ? latest : { _empty: true };
+          return fetch(API, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': window.RENT_KEY }, body: JSON.stringify(payload) })
+            .then(function (r) {
+              if (!r.ok) throw new Error('write');
+              delete latest._empty; marks = latest; writeLocal(marks);
+              flash(id, 'Saved ✓', false);
+              if (!openBox) render();
+            });
+        })
+        .catch(function () { flash(id, 'Not saved. Check the connection and try again', true); });
+    });
   }
+  // Pick up what the other phone changed: when the page comes back to the front, and every 30 s.
+  function refreshMarks() {
+    if (!SHARED || openBox || !data) return;
+    pullMarks().then(function (m) {
+      if (openBox) return;
+      if (JSON.stringify(m) !== JSON.stringify(marks)) { marks = m; render(); }
+    });
+  }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) refreshMarks(); });
+  window.addEventListener('focus', refreshMarks);
+  setInterval(function () { if (!document.hidden) refreshMarks(); }, 30000);
   function flash(id, text, err) {
     var el = document.querySelector('.saving[data-id="' + id + '"]');
     if (el) { el.textContent = text; el.className = 'saving' + (err ? ' err' : ''); }
@@ -146,10 +174,11 @@
   }
   function markControls(x, st) {
     if (openBox === x.id) {
-      return '<div class="discard-box"><textarea id="why-' + x.id + '" placeholder="Why are we discarding it? (for example: basement, only 1 bedroom, already rented)"></textarea>' +
-        '<div class="row2"><button class="mbtn bad" data-act="confirm" data-id="' + x.id + '">Save as discarded</button><button class="mbtn" data-act="cancel" data-id="' + x.id + '">Cancel</button></div></div>';
+      var editing = st === 'discarded';
+      return '<div class="discard-box"><textarea id="why-' + x.id + '" placeholder="Why are we discarding it? (for example: basement, only 1 bedroom, already rented)">' + esc(editing ? x.discardReason : '') + '</textarea>' +
+        '<div class="row2"><button class="mbtn bad" data-act="confirm" data-id="' + x.id + '">' + (editing ? 'Save note' : 'Save as discarded') + '</button><button class="mbtn" data-act="cancel" data-id="' + x.id + '">Cancel</button></div></div>';
     }
-    if (st === 'discarded') return '<div class="mark"><button class="mbtn" data-act="restore" data-id="' + x.id + '">Restore</button></div><div class="saving" data-id="' + x.id + '"></div>';
+    if (st === 'discarded') return '<div class="mark"><button class="mbtn" data-act="discard" data-id="' + x.id + '">Edit note</button><button class="mbtn" data-act="restore" data-id="' + x.id + '">Restore</button></div><div class="saving" data-id="' + x.id + '"></div>';
     return '<div class="mark">' +
       '<button class="mbtn' + (st === 'contacted' ? ' on' : '') + '" data-act="contacted" data-id="' + x.id + '">' + (st === 'contacted' ? '✓ Contacted' : 'Mark contacted') + '</button>' +
       '<button class="mbtn bad" data-act="discard" data-id="' + x.id + '">Discard…</button></div>' +
