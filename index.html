@@ -142,7 +142,14 @@
               if (!openBox) render();
             });
         })
-        .catch(function () { flash(id, 'Not saved. Check the connection and try again', true); });
+        .catch(function () {
+          flash(id, 'Not saved. Check the connection and try again', true);
+          // show what is really saved, so nothing looks marked that is not
+          fetch(API + '/latest', { headers: { 'X-Master-Key': window.RENT_KEY, 'X-Bin-Meta': 'false' }, cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (m) { if (m) { delete m._empty; marks = m; writeLocal(m); if (!openBox) render(); } })
+            .catch(function () {});
+        });
     });
   }
   // Pick up what the other phone changed: when the page comes back to the front, and every 30 s.
