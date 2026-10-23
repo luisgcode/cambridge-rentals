@@ -79,6 +79,8 @@
   .discard-box .row2 { display: flex; gap: 8px; }
   .saving { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-soft); }
   .saving.err { color: #b00020; }
+  #toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); max-width: calc(100% - 32px); background: #1d1d1d; color: #fff; font: 600 14px var(--sans); padding: 12px 16px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,.25); z-index: 50; }
+  #toast.err { background: #b00020; }
   .banner { background: #fff4d6; border: 1px solid #e8cf83; color: #6b5200; font-size: 13px; padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; }
 </style>
 <script src="config.js"></script>
@@ -98,6 +100,7 @@
   <div class="banner" id="banner" hidden>Changes are saved on this device only. To make them live on every device, the shared store key has to be set in config.js.</div>
   <div id="list"><p class="empty">Loading…</p></div>
 </main>
+<div id="toast" role="status" aria-live="polite" hidden></div>
 <script>
   var LABEL = { located: 'Located', contacted: 'Contacted', discarded: 'Discarded' };
   var data = null, filter = 'active', marks = {}, openBox = null;
@@ -153,9 +156,17 @@
   document.addEventListener('visibilitychange', function () { if (!document.hidden) refreshMarks(); });
   window.addEventListener('focus', refreshMarks);
   setInterval(function () { if (!document.hidden) refreshMarks(); }, 30000);
+  var toastTimer = null;
   function flash(id, text, err) {
     var el = document.querySelector('.saving[data-id="' + id + '"]');
     if (el) { el.textContent = text; el.className = 'saving' + (err ? ' err' : ''); }
+    var x = data && data.listings.filter(function (l) { return l.id === id; })[0];
+    var t = document.getElementById('toast');
+    t.textContent = text + (x ? ' · ' + x.building : '');
+    t.className = err ? 'err' : '';
+    t.hidden = false;
+    clearTimeout(toastTimer);
+    if (!/Saving/.test(text)) toastTimer = setTimeout(function () { t.hidden = true; }, err ? 6000 : 2500);
   }
   function effective(x) {
     var m = marks[x.id];
