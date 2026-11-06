@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-11-06",
   "criteria": "Cambridge ON · rent up to $1,700 · 2 bed or 1 bed + den · dogs allowed · no basements · no shared",
   "listings": [
     {
@@ -23,22 +23,22 @@
     },
     {
       "id": "zumper-p743950-2bed",
-      "source": "Zumper",
-      "url": "https://www.zumper.com/apartment-buildings/p743950/wendy-court-greenway-chaplin-cambridge-on",
+      "source": "Rentals.ca (also on Zumper at $1,673)",
+      "url": "https://rentals.ca/cambridge/11-wendy-court",
       "building": "Wendy Court",
       "address": "11 Wendy Crt, Cambridge (Greenway-Chaplin)",
-      "rent": 1673,
+      "rent": 1574,
       "unit": "2 bed · 1 bath",
       "pets": "Dogs OK",
       "parking": "",
       "available": "",
-      "contact": "Centurion Property Associates · (844) 419-5789",
-      "howToBook": "Call Centurion, or Check availability on Zumper",
-      "notes": "The 2 bed + den unit is $1,787 (over budget).",
-      "found": "2026-10-22",
-      "status": "discarded",
+      "contact": "Customer Care Centre · (226) 407-6096 (Centurion on Zumper: (844) 419-5789)",
+      "howToBook": "Call the Customer Care Centre, or Request a tour on Rentals.ca",
+      "notes": "New rent special since Nov 4: 2 bed $1,574. We visited before and that unit was already rented; ask if this one is really available. The 2 bed + den is $1,787 (over budget). Pet policy not stated on Rentals.ca (Zumper says Dogs OK).",
+      "found": "2026-11-06",
+      "status": "located",
       "photo": "https://img.zumpercdn.com/889107877/640x480?auto=format",
-      "discardReason": "Not available. We went too late, the $1,673 unit is already rented and they have not updated the website yet."
+      "prevRent": 1673
     },
     {
       "id": "zumper-p218503-2bed",
