@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-06",
-  "criteria": "Cambridge ON · rent up to $1,700 · 2 bed or 1 bed + den · dogs allowed · no basements · no shared",
+  "updated": "2026-11-09",
+  "criteria": "Cambridge ON + Kitchener south along the ION 302 bus (Fairview to Sportsworld, about 2 km from a stop) · rent up to $1,700 · 2 bed or 1 bed + den · dogs allowed · no basements · no shared",
   "listings": [
     {
       "id": "zumper-p1054277-2bed",
@@ -343,6 +343,57 @@
       "status": "located",
       "discardReason": "",
       "photo": ""
+    },
+    {
+      "id": "rentalsca-k-traynor",
+      "source": "Rentals.ca",
+      "url": "https://rentals.ca/kitchener/301-341-traynor-ave",
+      "building": "301 & 341 Traynor Ave / 551 & 553 Vanier Dr",
+      "address": "Traynor Ave, Kitchener N2C 2H4 (Fairview area, about 1 km from the Fairview ION 302 stop)",
+      "rent": 1624,
+      "unit": "2 bed · 1 bath",
+      "pets": "All pets allowed",
+      "parking": "Indoor $110/month",
+      "available": "",
+      "contact": "Leasing office · (548) 490-6050",
+      "howToBook": "Call the leasing office, or Request a tour on Rentals.ca",
+      "notes": "Kitchener south, inside the new search area: the ION 302 bus goes from Fairview to Ainslie Terminal in Downtown Galt without transfers. The listing text mentions Westmount Rd, which does not match the address: confirm the exact building.",
+      "found": "2026-11-09",
+      "status": "located"
+    },
+    {
+      "id": "rentalsca-k-morgan",
+      "source": "Rentals.ca",
+      "url": "https://rentals.ca/kitchener/morgan-apartments",
+      "building": "Morgan Apartments",
+      "address": "167 Morgan Ave, Kitchener N2A 2M4 (near Fairview Park mall and Hwy 8, about 0.8 km from an ION 302 stop)",
+      "rent": 1415,
+      "unit": "2 bed",
+      "pets": "Pet friendly",
+      "parking": "Outdoor $50/month",
+      "available": "",
+      "contact": "Customer Care Centre · (226) 407-4185",
+      "howToBook": "Call the Customer Care Centre, or Request a tour on Rentals.ca",
+      "notes": "Hydro not included. On site laundry room, balconies in select suites. Cheapest 2 bed so far: confirm the unit is real and available.",
+      "found": "2026-11-09",
+      "status": "located"
+    },
+    {
+      "id": "rentalsca-k-cedarwoods",
+      "source": "Rentals.ca",
+      "url": "https://rentals.ca/kitchener/highpoint-kitchener-cedarwoods",
+      "building": "Highpoint Kitchener and Cedarwoods Tower (Realstar)",
+      "address": "1 Cedarwoods Cres, Kitchener N2C 2L8 (across the street from Fairview Park mall, 0.3 km from the ION 302 stop)",
+      "rent": 1695,
+      "unit": "2 bed",
+      "pets": "\"Pet restrictions may apply\": ask about a medium dog",
+      "parking": "Underground (price not listed)",
+      "available": "",
+      "contact": "Realstar rental office · (226) 499-9921",
+      "howToBook": "Open house every Monday, Tuesday and Wednesday 4 to 6 pm, or call. Online leasing available",
+      "notes": "One month free rent on select suites. On site laundry with smart card, private balcony or patio. Marketed for seniors and active adults.",
+      "found": "2026-11-09",
+      "status": "located"
     }
   ]
 }
