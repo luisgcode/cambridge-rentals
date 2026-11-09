@@ -394,6 +394,40 @@
       "notes": "One month free rent on select suites. On site laundry with smart card, private balcony or patio. Marketed for seniors and active adults.",
       "found": "2026-11-09",
       "status": "located"
+    },
+    {
+      "id": "realtor-40875191",
+      "source": "Realtor.ca",
+      "url": "https://www.realtor.ca/real-estate/30478321/75-harold-avenue-unit-1-kitchener",
+      "building": "75 Harold Ave, Unit 1 (small apartment building)",
+      "address": "75 Harold Ave, Kitchener N2A 2H9 (Centreville Chicopee, about 1 km from an ION 302 stop)",
+      "rent": 1650,
+      "unit": "2 bed · 1 bath · 800 sqft",
+      "pets": "Not stated: ask about the dog",
+      "parking": "1 space included",
+      "available": "Nov 1, 2026",
+      "contact": "Listing agent · 519-242-0277",
+      "howToBook": "Showing instructions in the sales brochure on the Realtor.ca listing, or call the agent",
+      "notes": "Rent plus electricity. Coin laundry in the building, carpet free, fridge and stove.",
+      "found": "2026-11-09",
+      "status": "located"
+    },
+    {
+      "id": "realtor-40866334",
+      "source": "Realtor.ca",
+      "url": "https://www.realtor.ca/real-estate/30323412/120-clive-road-unit-4-kitchener",
+      "building": "120 Clive Rd, Unit 4 (small apartment building)",
+      "address": "120 Clive Rd, Kitchener N2H 3N6 (near Montgomery Rd, about 2.5 km from an ION 302 stop, the edge of the new area)",
+      "rent": 1695,
+      "unit": "2 bed · 1 bath, renovated",
+      "pets": "Not stated: ask about the dog",
+      "parking": "1 space included (no second space)",
+      "available": "Now",
+      "contact": "Listing agent · 519-242-0277 (same agent as 75 Harold)",
+      "howToBook": "Showing instructions in the sales brochure on the Realtor.ca listing, or call the agent",
+      "notes": "Rent plus electricity. New flooring, common coin laundry, green space. Farthest from the bus of the new ones.",
+      "found": "2026-11-09",
+      "status": "located"
     }
   ]
 }
